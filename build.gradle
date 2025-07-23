@@ -18,8 +18,11 @@ shadowJar {
 }
 
 dependencies {
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.7'
     implementation 'com.pi4j:pi4j-core:2.3.0'
     implementation 'com.pi4j:pi4j-plugin-linuxfs:2.3.0'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
