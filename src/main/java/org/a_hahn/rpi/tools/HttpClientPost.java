@@ -1,6 +1,7 @@
 package org.a_hahn.rpi.tools;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class HttpClientPost {
@@ -25,7 +27,7 @@ public class HttpClientPost {
      * @param contacts Array of integers (sent as contacts[])
      * @return HTTP status code or -1 if request failed
      */
-    public static int sendPostRequest(String baseUrl, String name, boolean ok, int[] contacts) {
+    public static int sendPostRequest(String baseUrl, String name, boolean ok, Collection<Integer> contacts) {
 
         final Logger log = LoggerFactory.getLogger(HttpClientPost.class);
 
@@ -45,11 +47,17 @@ public class HttpClientPost {
             httpPost.setEntity(new UrlEncodedFormEntity(params));
 
             try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                return response.getStatusLine().getStatusCode();
+                int ret = response.getStatusLine().getStatusCode();
+                if (ret >= 100 && ret < 400) {
+                    log.debug("Message sent to " + baseUrl );
+                } else {
+                    log.error("Error " + ret + " sending message to " + baseUrl);
+                }
+                return ret;
             }
 
-        } catch (IOException e) {
-            log.error("Request failed: " + e.getMessage());
+        } catch (IOException ioex) {
+            log.error("Could not send message to endpoint " + baseUrl + ioex.getMessage());
             return -1;  // Return -1 to indicate failure
         }
     }
