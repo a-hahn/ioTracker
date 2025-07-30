@@ -1,5 +1,6 @@
 package org.a_hahn.rpi;
 
+import com.sun.tools.javac.Main;
 import org.a_hahn.rpi.tools.CpuSerialReader;
 import org.a_hahn.rpi.tools.HttpClientPost;
 
@@ -27,10 +28,14 @@ public class IoTracker {
 
         int sendStatus = 0;
 
+        pi4Led.setMode(Pi4Led.LedMode.SHORT);
+
+        String version = IoTracker.class.getPackage().getImplementationVersion();
+        log.info(IoTracker.class.getPackage().getImplementationTitle() + " " + (version != null ? version : "DEV"));
+
         final String deviceId = CpuSerialReader.getCpuSerial();
         log.info("Device Id: " + deviceId);
-
-        pi4Led.setMode(Pi4Led.LedMode.SHORT);
+        log.info("Connecting to " + baseUrl);
 
         try {
             ArrayList<SequentDINBoardPi4J> boards = new ArrayList<>();

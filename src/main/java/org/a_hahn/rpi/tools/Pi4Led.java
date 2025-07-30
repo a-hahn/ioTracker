@@ -111,15 +111,14 @@ public class Pi4Led {
                     sleep(1000);
                     break;
                 case SHORT:
-                    blink(50, 100, 100);
+                    blink(10, 100, 100);
                     break;
                 case FAST:
-                    blink(100, 50, 50);
+                    blink(20, 50, 50);
                     break;
                 case PANIC:
                     blink(10, 100, 100);
-                    blink(10, 300, 300);
-                    blink(10, 100, 100);
+                    blink(5, 300, 300);
                     break;
                 case OFF:
                 default:

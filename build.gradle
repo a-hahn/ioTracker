@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.a-hahn.rpi'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -13,7 +13,11 @@ repositories {
 shadowJar {
     archiveClassifier = ''
     manifest {
-        attributes 'Main-Class': 'org.a_hahn.rpi.IoTracker'
+        attributes(
+                'Implementation-Title': 'IoTracker',        // Program name
+                'Implementation-Version': project.version,  //
+                'Main-Class': 'org.a_hahn.rpi.IoTracker'    // Your main class
+        )
     }
 }
 

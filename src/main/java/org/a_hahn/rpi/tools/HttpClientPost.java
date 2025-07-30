@@ -1,11 +1,12 @@
 package org.a_hahn.rpi.tools;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -31,7 +32,17 @@ public class HttpClientPost {
 
         final Logger log = LoggerFactory.getLogger(HttpClientPost.class);
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(5000)
+                .setConnectionRequestTimeout(5000)
+                .setSocketTimeout(5000)
+                .build();
+
+        CloseableHttpClient httpClient = HttpClientBuilder.create()
+                .setDefaultRequestConfig(config)
+                .build();
+
+        try {
             // Construct URL with path variables
             String url = String.format("%s/%s/%s",
                     baseUrl, URLEncoder.encode(name, "UTF-8"), ok);
@@ -57,7 +68,7 @@ public class HttpClientPost {
             }
 
         } catch (IOException ioex) {
-            log.error("Could not send message to endpoint " + baseUrl + ioex.getMessage());
+            log.error("Could not send message to endpoint " + baseUrl + " " + ioex.getMessage());
             return -1;  // Return -1 to indicate failure
         }
     }

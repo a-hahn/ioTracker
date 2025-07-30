@@ -1,9 +1,7 @@
-package org.a_hahn.rpi2;
-
 import com.pi4j.Pi4J;
 import com.pi4j.io.i2c.I2C;
 
-public class SequentDigitalReader {
+public class SequentDigitalReaderTest {
     public static void main(String[] args) {
         var pi4j = Pi4J.newAutoContext();
         var config = I2C.newConfigBuilder(pi4j)
