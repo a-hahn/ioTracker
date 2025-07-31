@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.a-hahn.rpi'
-version = '1.0'
+version = '1.01'
 
 repositories {
     mavenCentral()
